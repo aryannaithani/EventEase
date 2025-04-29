@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Propose New Event</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .navbar-brand {
+            font-weight: 700;
+        }
+        .page-header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 40px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 20px 20px;
+        }
+        .form-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 50px;
+        }
+        .form-label {
+            font-weight: 500;
+        }
+        .form-control, .form-select {
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #e1e1e1;
+            margin-bottom: 15px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #6a11cb;
+            box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+        .btn-outline-secondary {
+            border-color: #6c757d;
+            color: #6c757d;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-outline-secondary:hover {
+            background-color: #6c757d;
+            color: white;
+        }
+        footer {
+            background-color: #212529;
+            color: white;
+            padding: 20px 0;
+            margin-top: 60px;
+        }
+        .form-text {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .section-heading {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            color: #495057;
+        }
+        .form-check-input:checked {
+            background-color: #6a11cb;
+            border-color: #6a11cb;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">EventEase</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/student-dashboard">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/view-events">Calendar</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Notifications</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <span class="text-light me-3">Student : {{user}}</span>
+                    <div class="dropdown">
+                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle fa-lg"></i>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1>Propose a New Event</h1>
+            <p class="lead">Tell us about the event you'd like to organize on campus</p>
+        </div>
+    </header>
+
+    <!-- Event Proposal Form -->
+    <section class="container">
+        <div class="form-container">
+            <form method="post" action="/propose-event" id="eventProposalForm" novalidate>
+                <!-- Event Basic Information -->
+                <h4 class="section-heading">Event Information</h4>
+
+                <div class="mb-3">
+                    <label for="eventTitle" class="form-label">Event Title <span class="text-danger">*</span></label>
+                    <input name="title" type="text" class="form-control" id="eventTitle" required>
+                    <div class="invalid-feedback">
+                        Please provide an event title.
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="eventDescription" class="form-label">Event Description <span class="text-danger">*</span></label>
+                    <textarea name="description" class="form-control" id="eventDescription" rows="4" required></textarea>
+                    <div class="form-text">Provide a detailed description of the event, its purpose, and what attendees can expect.</div>
+                    <div class="invalid-feedback">
+                        Please provide an event description.
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="eventDate" class="form-label">Event Date <span class="text-danger">*</span></label>
+                        <input name="date" type="date" class="form-control" id="eventDate" required>
+                        <div class="invalid-feedback">
+                            Please select a date for your event.
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="eventTime" class="form-label">Event Time <span class="text-danger">*</span></label>
+                        <input name="time" type="time" class="form-control" id="eventTime" required>
+                        <div class="invalid-feedback">
+                            Please select a time for your event.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="eventDuration" class="form-label">Event Duration (hours)</label>
+                        <input name="duration" type="number" class="form-control" id="eventDuration" min="0.5" step="0.5" value="1">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="expectedParticipants" class="form-label">Expected Number of Participants <span class="text-danger">*</span></label>
+                        <input name="expected_participants" type="number" class="form-control" id="expectedParticipants" min="1" required>
+                        <div class="invalid-feedback">
+                            Please estimate the number of participants.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Venue Information -->
+                <h4 class="section-heading mt-4">Venue Preference</h4>
+
+                <div class="mb-3">
+                    <label for="venuePreference" class="form-label">Preferred Venue <span class="text-danger">*</span></label>
+                    <select name="venue_preference" class="form-select" id="venuePreference" required>
+                        <option value="" selected disabled>Select a venue</option>
+                        <option value="main_hall">Main Hall (capacity: 500)</option>
+                        <option value="lecture_theater">Lecture Theater (capacity: 200)</option>
+                        <option value="outdoor_quad">Outdoor Quadrangle (capacity: 300)</option>
+                        <option value="seminar_room">Seminar Room (capacity: 50)</option>
+                        <option value="sports_hall">Sports Hall (capacity: 400)</option>
+                        <option value="student_lounge">Student Lounge (capacity: 100)</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Please select a preferred venue.
+                    </div>
+                </div>
+        </div>
+
+                <div class="mb-4 mt-2">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="eventPublic" checked>
+                        <label class="form-check-label" for="eventPublic">
+                            Make this event public (visible to all students)
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Form Submission -->
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="button" class="btn btn-outline-secondary me-2" onclick="history.back()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Proposal</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container text-center">
+            <p>&copy; 2025 EventEase - University Event Management System</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Form Validation Script -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Form validation script
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('eventProposalForm');
+
+            form.addEventListener('submit', function(event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                } else {
+                    // In a real application, you would handle form submission here
+                    alert('Event proposal submitted successfully!');
+                    // Redirect to dashboard or confirmation page
+                    window.location.href = 'student_dashboard.html';
+                }
+
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventEase - Login</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo h1 {
+            color: #6a11cb;
+            font-weight: 700;
+        }
+        .login-form .form-control {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #e1e1e1;
+        }
+        .login-form .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .login-form .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+        .signup-link {
+            text-align: center;
+            margin-top: 25px;
+        }
+        .signup-link a {
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        .back-link {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: #6a11cb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+        .role-selector {
+            margin-bottom: 25px;
+        }
+        .role-btn {
+            padding: 8px 0;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #e1e1e1;
+            background-color: #f8f9fa;
+            color: #6a11cb;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .role-btn.active, .role-btn:hover {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-link">← Back to Home</a>
+
+    <div class="login-container">
+        <div class="logo">
+            <h1>EventEase</h1>
+            <p>Sign in to your account</p>
+        </div>
+
+        <div class="role-selector">
+            <div class="row g-2 mb-3">
+                <div class="col-4">
+                    <button type="button" class="role-btn active" data-role="student" onclick="selectRole('student')">Student</button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="role-btn" data-role="faculty" onclick="selectRole('faculty')">Faculty</button>
+                </div>
+                <div class="col-4">
+                    <button type="button" class="role-btn" data-role="admin" onclick="selectRole('admin')">Admin</button>
+                </div>
+            </div>
+        </div>
+
+        <form method="post" action="/login" class="login-form" id="loginForm">
+            <input type="hidden" id="userRole" value="student" name="role">
+
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+
+            <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="rememberMe">
+                <label class="form-check-label" for="rememberMe">Remember me</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="loginButton">Login</button>
+
+            <div class="forgot-password text-end mt-2">
+                <a href="#" class="text-muted">Forgot password?</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function selectRole(role) {
+            // Update hidden field value
+            document.getElementById('userRole').value = role;
+
+            // Update active button styling
+            const buttons = document.querySelectorAll('.role-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-role') === role) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update form action and button text based on role
+            const form = document.getElementById('loginForm');
+            const loginButton = document.getElementById('loginButton');
+
+            switch(role) {
+                case 'student':
+                    loginButton.textContent = "Login as Student";
+                    break;
+                case 'faculty':
+                    loginButton.textContent = "Login as Faculty";
+                    break;
+                case 'admin':
+                    loginButton.textContent = "Login as Admin";
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>
