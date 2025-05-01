@@ -183,10 +183,10 @@ class CreateAccount(MethodView):
 
     def get(self):
         print(" get called")
-        return render_template('create-account.html')
+        return render_template('create-account.html', user=session['username'])
 
     def post(self):
-        print(" post called")
+        print("post called")
         username = request.form.get('username')
         password = request.form.get('password')
         role = request.form.get('role')
